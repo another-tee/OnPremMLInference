@@ -167,3 +167,6 @@ dockerfiles/infer.tar
 
 # TRT Engines
 **.trt**
+
+# Image tar
+**.tar**

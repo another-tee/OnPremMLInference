@@ -6,7 +6,7 @@ metadata:
   labels:
     app: ml-infer
 spec:
-  replicas: 3
+  replicas: 10
   selector:
     matchLabels:
       app: ml-infer
@@ -16,7 +16,6 @@ spec:
         app: ml-infer
     spec:
       runtimeClassName: nvidia
-      restartPolicy: OnFailure
       containers:
       - name: ml-infer
         env:
@@ -24,8 +23,7 @@ spec:
           value: all
         - name: NVIDIA_DRIVER_CAPABILITIES
           value: compute,utility
-        image: ml-infer:latest
-        imagePullPolicy: Never
-        resources:
-        limits:
-          nvidia.com/gpu: 1
+        image: localhost:32000/ml-infer:with_images
+        # resources:
+        #   limits:
+        #     nvidia.com/gpu: 1
