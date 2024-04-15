@@ -164,3 +164,6 @@ src/inference/usecases/test_images
 
 # Microk8s tar images
 dockerfiles/infer.tar
+
+# TRT Engines
+**.trt**
