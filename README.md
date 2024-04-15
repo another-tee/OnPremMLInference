@@ -31,3 +31,4 @@
     ```bash
     microk8s enable gpu
     ```
+![image](https://github.com/another-tee/OnPremMLInference/assets/118554609/1c60e6f4-342a-46b8-998b-f5168dcc4e62)
