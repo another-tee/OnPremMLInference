@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-infer-deployment
+  namespace: dev
+  labels:
+    app: ml-infer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ml-infer
+  template:
+    metadata:
+      labels:
+        app: ml-infer
+    spec:
+      containers:
+      - name: ml-infer
+        image: ml-infer:latest
+        imagePullPolicy: Never
