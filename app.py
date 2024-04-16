@@ -48,8 +48,8 @@ def inference(data):
 def health_check():
     r.incr('hits')
     counter = str(r.get('hits'), 'utf-8')
-    return """Welcome to this health ckeck page!, 
-        \nThis webpage has been viewed "+ counter + " time(s)"""
+    return f"""Welcome to this health ckeck page!, 
+        \nThis webpage has been viewed "+ {counter} + " time(s)"""
 
 
 @app.route('/predict/morning_talk', methods=['POST'])
@@ -65,7 +65,7 @@ def predict():
         
         res, usecase = inference(data)
         outputs = {
-            "results": list(res),
+            "results": str(list(res)),
             "usecase": str(usecase)
         }
 
