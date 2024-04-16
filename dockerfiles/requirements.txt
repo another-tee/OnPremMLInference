@@ -1,0 +1,6 @@
+cuda-python
+opencv-python-headless
+Flask
+redis
+gunicorn
+requests

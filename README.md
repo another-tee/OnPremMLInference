@@ -31,3 +31,15 @@
     ```bash
     microk8s enable gpu
     ```
+
+# Create Built-in registry
+1. `docker build -f dockerfiles/Dockerfile.infer -t localhost:32000/ml-infer:latest .`
+2. `docker push localhost:32000/ml-infer:latest`
+3. Edit /etc/docker/daemon.json
+    
+    ```json
+    {
+        "insecure-registries" : ["localhost:32000"]
+    }
+    ```
+4. `sudo systemctl restart docker`

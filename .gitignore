@@ -167,3 +167,6 @@ usecases/test_images
 
 # Image tar
 **.tar**
+
+# Onnx
+**.onnx**

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-infer-deployment
+  namespace: dev
+  labels:
+    app.kubernetes.io/name: ml-infer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml-infer
+  template:
+    metadata:
+      labels:
+        app: ml-infer
+    spec:
+      runtimeClassName: nvidia
+      containers:
+      - name: ml-infer
+        image: localhost:32000/ml-infer:latest
+        env:
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: all
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: compute,utility
+        - name: CACHE_DEFAULT_TIMEOUT
+          value: "500"
+        - name: CACHE_REDIS_DB
+          value: "0"
+        - name: CACHE_REDIS_HOST
+          value: "redis"
+        - name: CACHE_REDIS_PORT
+          value: "6379"
+        - name: CACHE_REDIS_URL
+          value: "redis://127.0.0.1:6379"
+        - name: CACHE_TYPE
+          value: "redis"
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+      - name: redis-sidecar
+        image: redis
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always

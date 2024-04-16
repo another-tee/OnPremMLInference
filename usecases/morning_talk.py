@@ -98,20 +98,4 @@ class UsecaseMorningTalk:
             results.append([xmin, ymin, xmax, ymax, score, classname])
 
         return results
-
-
-# Test
-test_obj = UsecaseMorningTalk()
-test_obj.init_model()
-
-import time
-from PIL import Image
-start_time = time.time()
-image_num = 0
-for image_path in os.listdir("usecases/test_images"):
-    test_pil_image = Image.open(f"usecases/test_images/{image_path}")
-    test_res = test_obj.infer(test_pil_image)
-    print(test_res)
-    image_num += 1
-end_time = time.time()
-print(f"FPS: {image_num/(end_time-start_time)}")
+    

@@ -12,17 +12,19 @@ RUN apt-get update
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# PIP dependencies
-RUN python3 -m pip install --default-timeout=100 \
-    cuda-python \
-    opencv-python-headless
-
 # Copyfiles
 RUN mkdir -p /inference
-COPY ../src/inference/ /inference
+COPY .. /inference
+
+# PIP dependencies
+RUN python3 -m pip install --default-timeout=100 \
+    --no-cache-dir -r /inference/dockerfiles/requirements.txt
+
+# Expose a port for incoming requests
+EXPOSE 5000
 
 # Workinf directory
 WORKDIR "/inference"
 
 # Specifies the default command to run when the container starts.
-CMD ["python3", "usecases/morning_talk.py"]
+CMD ["gunicorn", "app:app", "-w", "3", "-b", ":5000"]
