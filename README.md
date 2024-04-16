@@ -43,3 +43,9 @@
     }
     ```
 4. `sudo systemctl restart docker`
+
+# Useful commands for dev
+- microk8s kubectl delete --all services,pods,deployment -n dev
+- microk8s kubectl apply -f k8s/.
+- microk8s kubectl get all -n dev
+- microk8s kubectl exec --stdin --tty {pod} -n dev -- /bin/bash

@@ -55,20 +55,21 @@ def health_check():
 @app.route('/predict/morning_talk', methods=['POST'])
 def predict():
     try:
-        data = request.get_json(force=True)
+        # data = request.get_json(force=True)
 
-        # Check cache
-        cache_key = f"{request.url}"
-        cached_response = r.get(cache_key)
-        if cached_response:
-            return jsonify(json.loads(cached_response))
+        # # Check cache
+        # cache_key = f"{request.url}"
+        # cached_response = r.get(cache_key)
+        # if cached_response:
+        #     return jsonify(json.loads(cached_response))
         
-        res, usecase = inference(data)
-        outputs = {
-            "results": str(list(res)),
-            "usecase": str(usecase)
-        }
-
+        # res, usecase = inference(data)
+        # len_of_list = len(res)
+        # outputs = {
+        #     "results": str(len_of_list),
+        #     "usecase": str(usecase)
+        # }
+        outputs = {"test": "passed"}
         return jsonify(outputs)
 
     except Exception as e:
