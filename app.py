@@ -8,16 +8,12 @@ import gunicorn
 from PIL import Image
 from io import BytesIO
 from flask import Flask, request, jsonify
-from usecases.morning_talk import UsecaseMorningTalk
 
 # Flask app
 app = Flask(__name__)
 app.config.from_object('config.Config')
 r = redis.Redis()
 
-# Model init
-model_obj = UsecaseMorningTalk()
-model_obj.init_model()
 
 # --------------------------------------------------------------------------- #
 #                               Define functions                              #
@@ -36,10 +32,7 @@ def inference(data):
         return json.loads(cached_result), usecase
     
     # Perform inference if not cached
-    res = model_obj.infer(pil_image)
-    
-    # Store result in Redis
-    r.set(cache_key, json.dumps(list(res)))
+    res = None
 
     return res, usecase
 

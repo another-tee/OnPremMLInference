@@ -1,1 +1,3 @@
+# Ignore files/folders before using docker build
+config_module/
 k8s/

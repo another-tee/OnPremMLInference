@@ -1,0 +1,1 @@
+# The model architecture is MobileNetV2

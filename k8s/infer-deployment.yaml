@@ -39,10 +39,9 @@ spec:
         ports:
         - containerPort: 5000
           protocol: TCP
-      - name: redis-sidecar
+      - name: redis-cache
         image: redis
         ports:
         - containerPort: 6379
           protocol: TCP
-        resources: {}
       restartPolicy: Always
