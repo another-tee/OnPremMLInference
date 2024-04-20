@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ml-infer-deployment
-  namespace: dev
+  namespace: prod
   labels:
-    app.kubernetes.io/name: ml-infer-deployment
+    app: ml-infer # Take cares of pods labeled ml-infer
 spec:
   replicas: 1
   selector:
@@ -18,14 +18,17 @@ spec:
       runtimeClassName: nvidia
       containers:
       - name: ml-infer
-        image: localhost:32000/ml-infer:latest
+        image: localhost:32000/ml-infer:prod
+        ports:
+        - containerPort: 5000
+          protocol: TCP
         env:
         - name: NVIDIA_VISIBLE_DEVICES
           value: all
         - name: NVIDIA_DRIVER_CAPABILITIES
           value: compute,utility
         - name: CACHE_DEFAULT_TIMEOUT
-          value: "500"
+          value: "120"
         - name: CACHE_REDIS_DB
           value: "0"
         - name: CACHE_REDIS_HOST
@@ -36,9 +39,6 @@ spec:
           value: "redis://127.0.0.1:6379"
         - name: CACHE_TYPE
           value: "redis"
-        ports:
-        - containerPort: 5000
-          protocol: TCP
       - name: redis-cache
         image: redis
         ports:
