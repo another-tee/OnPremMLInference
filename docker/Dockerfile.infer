@@ -27,4 +27,4 @@ EXPOSE 5000
 WORKDIR "/ml-inference"
 
 # Specifies the default command to run when the container starts.
-CMD ["gunicorn", "app:app", "-w", "3", "-b", ":5000"]
+CMD ["gunicorn", "flaskapp:app", "-w", "3", "-b", "0.0.0.0:5000"]
