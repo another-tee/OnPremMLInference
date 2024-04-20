@@ -203,4 +203,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
 
-# python3 main.py -p morning_talk -d human_focus -da efficientdet -dc 0.3 -c staff_focus -ca "mobilenet" -i test_images
+# python3 main.py -p morning_talk -d human_focus -da efficientdet -dc 0.3 -di 0.8 -c staff_focus -ca "mobilenet" -i test_images

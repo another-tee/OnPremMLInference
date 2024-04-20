@@ -14,13 +14,18 @@ app = Flask(__name__)
 app.config.from_object('config.Config')
 r = redis.Redis()
 
+# Model Initialize
+from main import MLProcessing
+processor = MLProcessing(
+    "human_focus", "efficientdet", "staff_focus", "mobilenet", None
+)
+processor.set_params(0.5, None, None)
 
-# --------------------------------------------------------------------------- #
-#                               Define functions                              #
-# --------------------------------------------------------------------------- #
+# # --------------------------------------------------------------------------- #
+# #                               Define functions                              #
+# # --------------------------------------------------------------------------- #
 def inference(data):
     base64_text = data.get("base64_image", "")
-    usecase = data.get("usecase", "")
     image_bytes = base64.b64decode(base64_text)
     image_stream = BytesIO(image_bytes)
     pil_image = Image.open(image_stream)
@@ -29,12 +34,12 @@ def inference(data):
     cache_key = f"{request.url}"
     cached_result = r.get(cache_key)
     if cached_result:
-        return json.loads(cached_result), usecase
+        return json.loads(cached_result)
     
     # Perform inference if not cached
-    res = None
+    result = processor.infer([pil_image])
 
-    return res, usecase
+    return result
 
 
 @app.route('/')
@@ -48,21 +53,18 @@ def health_check():
 @app.route('/predict/morning_talk', methods=['POST'])
 def predict():
     try:
-        # data = request.get_json(force=True)
+        data = request.get_json(force=True)
 
-        # # Check cache
-        # cache_key = f"{request.url}"
-        # cached_response = r.get(cache_key)
-        # if cached_response:
-        #     return jsonify(json.loads(cached_response))
+        # Check cache
+        cache_key = f"{request.url}"
+        cached_response = r.get(cache_key)
+        if cached_response:
+            return jsonify(json.loads(cached_response))
         
-        # res, usecase = inference(data)
-        # len_of_list = len(res)
-        # outputs = {
-        #     "results": str(len_of_list),
-        #     "usecase": str(usecase)
-        # }
-        outputs = {"test": "passed"}
+        result = inference(data)
+        outputs = {
+            "results": str(result),
+        }
         return jsonify(outputs)
 
     except Exception as e:
