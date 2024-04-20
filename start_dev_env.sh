@@ -9,6 +9,7 @@ fi
 if command -v nvidia-smi &> /dev/null; then
     docker run \
         --name ml-processor \
+        --publish 5000:5000 \
         -it \
         --rm \
         --gpus all \
@@ -17,6 +18,7 @@ if command -v nvidia-smi &> /dev/null; then
 else
     docker run \
         --name ml-processor \
+        --publish 5000:5000 \
         -it \
         --rm \
         -v $PWD:/ml-inference \
